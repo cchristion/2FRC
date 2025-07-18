@@ -3,12 +3,13 @@
 import re
 
 import pandas as pd
+import requests
 import streamlit as st
 
 # ------ Page Config ------
 
 st.set_page_config(
-    page_title="JSONL Analyser",
+    page_title="2FRC: 2 File Regex compare",
     page_icon=":mag:",
     layout="wide",
 )
@@ -34,18 +35,26 @@ pattern = re.compile(pattern, re.IGNORECASE)
 col1, col2 = st.columns(2)
 
 with col1:
-    file1 = st.file_uploader("Choose a file to compare", key="f1")
+    url1 = st.text_area("Paste file URL", key="u1")
+    url1_data = None
+    if url1:
+        url1_data = requests.get(url1, timeout=10).content.decode("utf-8")
+    file1 = st.file_uploader("or Choose a file to compare", key="f1")
     if file1 is not None:
         file1 = file1.read().decode("utf-8", errors="replace")
-    txt1 = st.text_area("Or paste text here", key="t1")
-    data1 = file1 or txt1
+    txt1 = st.text_area("or Paste text here", key="t1")
+    data1 = url1_data or file1 or txt1
 
 with col2:
-    file2 = st.file_uploader("Choose a file to compare", key="f2")
+    url2 = st.text_area("Paste file URL", key="u2")
+    url2_data = None
+    if url2:
+        url2_data = requests.get(url1, timeout=10).content.decode("utf-8")
+    file2 = st.file_uploader("or Choose a file to compare", key="f2")
     if file2 is not None:
         file2 = file2.read().decode("utf-8", errors="replace")
-    txt2 = st.text_area("Or paste text here", key="t2")
-    data2 = file2 or txt2
+    txt2 = st.text_area("or Paste text here", key="t2")
+    data2 = url2_data or file2 or txt2
 
 col1, col2 = st.columns(2)
 
