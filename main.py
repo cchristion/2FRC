@@ -45,16 +45,24 @@ with col1:
     txt1 = st.text_area("or Paste text here", key="t1")
     data1 = url1_data or file1 or txt1
 
+    # Adding new lines because regex is skipping the initial couple
+    # of letters when matching patterns in the provided text
+    data1 = "\n\n" + data1
+
 with col2:
     url2 = st.text_area("Paste file URL", key="u2")
     url2_data = None
     if url2:
-        url2_data = requests.get(url1, timeout=10).content.decode("utf-8")
+        url2_data = requests.get(url2, timeout=10).content.decode("utf-8")
     file2 = st.file_uploader("or Choose a file to compare", key="f2")
     if file2 is not None:
         file2 = file2.read().decode("utf-8", errors="replace")
     txt2 = st.text_area("or Paste text here", key="t2")
     data2 = url2_data or file2 or txt2
+
+    # Adding new lines because regex is skipping the initial couple
+    # of letters when matching patterns in the provided text
+    data2 = "\n\n" + data2
 
 col1, col2 = st.columns(2)
 
