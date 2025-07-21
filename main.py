@@ -64,7 +64,7 @@ with col2:
     # of letters when matching patterns in the provided text
     data2 = "\n\n" + data2
 
-if data1.strip() and data2.strip():
+if data1.strip() or data2.strip():
     st.markdown("""---""")
     col1, col2 = st.columns(2)
 
