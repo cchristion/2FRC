@@ -64,62 +64,65 @@ with col2:
     # of letters when matching patterns in the provided text
     data2 = "\n\n" + data2
 
-
-st.markdown("""---""")
-col1, col2 = st.columns(2)
-
-with col1:
-    if data1 and pattern:
-        data1 = pattern.findall(data1, re.IGNORECASE)
-
-        st.markdown("""### All Matchs""")
-        data1_df = pd.DataFrame(data1, columns=["Matchs"])
-        st.markdown(f"Count: {len(data1_df):,}")
-        st.dataframe(data1_df, use_container_width=True)
-
-        st.markdown("""### Unique Matchs""")
-        data1_df = pd.DataFrame(set(map(str.lower, data1)), columns=["Unique Matchs"])
-        st.markdown(f"Count: {len(data1_df):,}")
-        st.dataframe(data1_df, use_container_width=True)
-
-with col2:
-    if data2 and pattern:
-        data2 = pattern.findall(data2, re.IGNORECASE)
-
-        st.markdown("""### All Matchs""")
-        data2_df = pd.DataFrame(data2, columns=["Matchs"])
-        st.markdown(f"Count: {len(data2_df):,}")
-        st.dataframe(data2_df, use_container_width=True)
-
-        st.markdown("""### Unique Matchs""")
-        data2_df = pd.DataFrame(set(map(str.lower, data2)), columns=["Unique Matchs"])
-        st.markdown(f"Count: {len(data2_df):,}")
-        st.dataframe(data2_df, use_container_width=True)
-
-
-if data1 and data2:
+if data1.strip() and data2.strip():
     st.markdown("""---""")
     col1, col2 = st.columns(2)
 
     with col1:
-        st.markdown("""### Matches that are not in the other""")
-        diff1_df = set(map(str.lower, data1)) - set(map(str.lower, data2))
-        diff1_df = pd.DataFrame(diff1_df, columns=["Matchs"])
-        st.markdown(f"Count: {len(diff1_df):,}")
-        st.dataframe(diff1_df, use_container_width=True)
+        if data1 and pattern:
+            data1 = pattern.findall(data1, re.IGNORECASE)
+
+            st.markdown("""### All Matchs""")
+            data1_df = pd.DataFrame(data1, columns=["Matchs"])
+            st.markdown(f"Count: {len(data1_df):,}")
+            st.dataframe(data1_df, use_container_width=True)
+
+            st.markdown("""### Unique Matchs""")
+            data1_df = pd.DataFrame(
+                set(map(str.lower, data1)), columns=["Unique Matchs"]
+            )
+            st.markdown(f"Count: {len(data1_df):,}")
+            st.dataframe(data1_df, use_container_width=True)
 
     with col2:
-        st.markdown("""### Matches that are not in the other""")
-        diff2_df = set(map(str.lower, data2)) - set(map(str.lower, data1))
-        diff2_df = pd.DataFrame(diff2_df, columns=["Matchs"])
-        st.markdown(f"Count: {len(diff2_df):,}")
-        st.dataframe(diff2_df, use_container_width=True)
+        if data2 and pattern:
+            data2 = pattern.findall(data2, re.IGNORECASE)
 
-    st.markdown("""### Common Matchs""")
-    data_all_df = set(map(str.lower, data1)) & set(map(str.lower, data2))
-    st.markdown(f"Count: {len(data_all_df):,}")
-    data_all_df = pd.DataFrame(set(data1) & set(data2), columns=["Common Matchs"])
-    st.dataframe(data_all_df, use_container_width=True)
+            st.markdown("""### All Matchs""")
+            data2_df = pd.DataFrame(data2, columns=["Matchs"])
+            st.markdown(f"Count: {len(data2_df):,}")
+            st.dataframe(data2_df, use_container_width=True)
+
+            st.markdown("""### Unique Matchs""")
+            data2_df = pd.DataFrame(
+                set(map(str.lower, data2)), columns=["Unique Matchs"]
+            )
+            st.markdown(f"Count: {len(data2_df):,}")
+            st.dataframe(data2_df, use_container_width=True)
+
+    if data1 and data2:
+        st.markdown("""---""")
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.markdown("""### Matches that are not in the other""")
+            diff1_df = set(map(str.lower, data1)) - set(map(str.lower, data2))
+            diff1_df = pd.DataFrame(diff1_df, columns=["Matchs"])
+            st.markdown(f"Count: {len(diff1_df):,}")
+            st.dataframe(diff1_df, use_container_width=True)
+
+        with col2:
+            st.markdown("""### Matches that are not in the other""")
+            diff2_df = set(map(str.lower, data2)) - set(map(str.lower, data1))
+            diff2_df = pd.DataFrame(diff2_df, columns=["Matchs"])
+            st.markdown(f"Count: {len(diff2_df):,}")
+            st.dataframe(diff2_df, use_container_width=True)
+
+        st.markdown("""### Common Matchs""")
+        data_all_df = set(map(str.lower, data1)) & set(map(str.lower, data2))
+        st.markdown(f"Count: {len(data_all_df):,}")
+        data_all_df = pd.DataFrame(set(data1) & set(data2), columns=["Common Matchs"])
+        st.dataframe(data_all_df, use_container_width=True)
 
 st.markdown(
     """---
